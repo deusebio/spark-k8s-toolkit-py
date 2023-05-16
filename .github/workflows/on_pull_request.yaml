@@ -1,0 +1,13 @@
+name: Verify contents of a PR
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+on:
+  pull_request:
+    types: [ assigned, opened, synchronize, reopened ]
+
+jobs:
+  build:
+    uses: ./.github/workflows/ci.yaml
