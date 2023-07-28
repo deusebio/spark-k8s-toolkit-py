@@ -132,7 +132,8 @@ def get_kube_interface(args: Namespace) -> AbstractKubeInterface:
         LightKube(args.kubeconfig or defaults.kube_config, defaults)
         if args.backend == "lightkube"
         else KubeInterface(
-            args.kubeconfig or defaults.kube_config, context_name=args.context
+            args.kubeconfig or defaults.kube_config, context_name=args.context,
+            kubectl_cmd=defaults.kubectl_cmd
         )
     )
 
