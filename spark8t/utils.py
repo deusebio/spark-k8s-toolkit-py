@@ -256,11 +256,17 @@ def parse_yaml_shell_output(cmd: str) -> Union[Dict[str, Any], str]:
         dictionary representing the output of the command
     """
     with io.StringIO() as buffer:
-        buffer.write(
-            subprocess.check_output(cmd, shell=True, stderr=subprocess.STDOUT).decode(
-                "utf-8"
-            )
-        )
+        try:
+            value = subprocess.check_output(cmd, shell=True, stderr=subprocess.STDOUT).decode(
+                    "utf-8"
+                )
+        except subprocess.CalledProcessError as e:
+            print(e.output)
+            print(e.stderr)
+            print(e.stdout)
+            print(e.returncode)
+            raise e
+        buffer.write(value)
         buffer.seek(0)
         return yaml.safe_load(buffer)
 
